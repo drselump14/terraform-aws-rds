@@ -197,17 +197,6 @@ resource "aws_security_group_rule" "ingress_cidr_blocks" {
   security_group_id = join("", aws_security_group.default.*.id)
 }
 
-resource "aws_security_group_rule" "egress" {
-  count             = module.this.enabled ? 1 : 0
-  description       = "Allow all egress traffic"
-  type              = "egress"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = join("", aws_security_group.default.*.id)
-}
-
 module "dns_host_name" {
   source  = "cloudposse/route53-cluster-hostname/aws"
   version = "0.12.2"

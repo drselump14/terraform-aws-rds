@@ -65,7 +65,7 @@ variable "multi_az" {
 
 variable "storage_type" {
   type        = string
-  description = "One of 'standard' (magnetic), 'gp2' (general purpose SSD), or 'io1' (provisioned IOPS SSD)"
+  description = "One of 'standard' (magnetic), 'gp2' (general purpose SSD), 'gp3' (general purpose SSD), or 'io1' (provisioned IOPS SSD)"
   default     = "standard"
 }
 
@@ -79,6 +79,12 @@ variable "iops" {
   type        = number
   description = "The amount of provisioned IOPS. Setting this implies a storage_type of 'io1'. Default is 0 if rds storage type is not 'io1'"
   default     = 0
+}
+
+variable "storage_throughput" {
+  type        = number
+  description = "The storage throughput value for the DB instance. Can only be set when `storage_type` is `gp3`. Cannot be specified if the `allocated_storage` value is below a per-engine threshold."
+  default     = null
 }
 
 variable "allocated_storage" {
@@ -106,7 +112,7 @@ variable "engine" {
 
 variable "engine_version" {
   type        = string
-  description = "Database engine version, depends on engine type. Required unless a `snapshot_identifier` or `replicate_source_db` is provided."
+  description = "Database engine version, depends on engine type."
   # http://docs.aws.amazon.com/cli/latest/reference/rds/create-db-instance.html
 }
 
